@@ -1,6 +1,7 @@
 using HealthTracker.Entities.Dtos.Incoming;
 using HealthTracker.Entities.DbSet;
 using Microsoft.AspNetCore.Mvc;
+using HealthTracker.Data.Configuration;
 
 namespace HealthTracker.API;
 
@@ -8,51 +9,33 @@ namespace HealthTracker.API;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UsersController(AppDbContext context)
+    public UsersController(IUnitOfWork unitOfWork)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _unitOfWork = unitOfWork ??
+            throw new ArgumentNullException(nameof(unitOfWork));
     }
 
     [HttpGet]
     [Route("GetUser")]
     public IActionResult GetUser(Guid id)
     {
-        ArgumentNullException.ThrowIfNull(_context.Users);
-
-        var user = _context.Users.FirstOrDefault(u => u.Id == id);
-        return Ok(user);
+        throw new NotImplementedException();
     }
 
     [HttpGet]
     [Route("GetUsers")]
-    public IActionResult GetUsers()
+    public async Task<IActionResult> GetUsersAsync()
     {
-        ArgumentNullException.ThrowIfNull(_context.Users);
-
-        var users = _context.Users.Where(u => u.Status == Status.Active);
-        if (users is null) return NotFound();
-        return Ok(users.ToList());
+        var users = await _unitOfWork.Users.GetAllAsync();
+        return Ok(users);
     }
 
     [HttpPost]
     [Route("AddUser")]
     public IActionResult AddUser(UserDto userDto)
     {
-        var user = new User
-        {
-            FirstName = userDto.FirstName,
-            LastName = userDto.LastName,
-            Phone = userDto.Phone,
-            DateOfBirth = userDto.DateOfBirth,
-            Country = userDto.Country,
-            Email = userDto.Email
-        };
-
-        ArgumentNullException.ThrowIfNull(_context.Users);
-        _context.Users.Add(user);
-        _context.SaveChanges();
-        return Ok();
+        throw new NotImplementedException();
     }
 }

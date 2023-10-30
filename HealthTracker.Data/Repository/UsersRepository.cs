@@ -1,11 +1,11 @@
 namespace HealthTracker.Data.Repository;
 
-public class UserRepository : GenericRepository<User>, IUserRepository
+public class UsersRepository : GenericRepository<User>, IUsersRepository
 {
-    public UserRepository(AppDbContext dbContext, ILogger logger)
+    public UsersRepository(AppDbContext dbContext, ILogger logger)
         : base(dbContext, logger) { }
 
-    public override async Task<IEnumerable<User>> GetAll()
+    public override async Task<IEnumerable<User>> GetAllAsync()
     {
         try
         {
@@ -14,7 +14,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, nameof(GetAll), typeof(UserRepository));
+            logger.LogError(ex, nameof(GetAllAsync), typeof(UsersRepository));
             return Enumerable.Empty<User>();
         }
     }
@@ -28,7 +28,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, nameof(GetUserPerEmail), typeof(UserRepository));
+            logger.LogError(ex, nameof(GetUserPerEmail), typeof(UsersRepository));
             return new User();
         }
     }
