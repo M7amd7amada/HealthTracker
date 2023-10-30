@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using HealthTracker.Entities.Dtos.Incoming;
 using HealthTracker.Entities.DbSet;
 using Microsoft.AspNetCore.Mvc;
@@ -19,9 +20,10 @@ public class UsersController : ControllerBase
 
     [HttpGet]
     [Route("GetUser")]
-    public IActionResult GetUser(Guid id)
+    public async Task<IActionResult> GetUser(Guid id)
     {
-        throw new NotImplementedException();
+        var user = await _unitOfWork.Users.GetByIdAsync(id);
+        return Ok(user);
     }
 
     [HttpGet]
@@ -34,8 +36,22 @@ public class UsersController : ControllerBase
 
     [HttpPost]
     [Route("AddUser")]
-    public IActionResult AddUser(UserDto userDto)
+    public async Task<IActionResult> AddUser(UserDto userDto)
     {
-        throw new NotImplementedException();
+        var user = new User
+        {
+            FirstName = userDto.FirstName,
+            LastName = userDto.LastName,
+            DateOfBirth = userDto.DateOfBirth,
+            Country = userDto.Country,
+            Phone = userDto.Phone,
+            Email = userDto.Email,
+        };
+
+
+        await _unitOfWork.Users.AddAsync(user);
+        await _unitOfWork.CompleteAsync();
+
+        return Ok();
     }
 }

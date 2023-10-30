@@ -19,6 +19,32 @@ public class UsersRepository : GenericRepository<User>, IUsersRepository
         }
     }
 
+    public override async Task<bool> AddAsync(User entity)
+    {
+        try
+        {
+            return await base.AddAsync(entity);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, nameof(AddAsync), typeof(UsersRepository));
+            return false;
+        }
+    }
+
+    public override async Task<User> GetByIdAsync(Guid id)
+    {
+        try
+        {
+            return await base.GetByIdAsync(id);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, nameof(GetByIdAsync), typeof(UsersRepository));
+            return new User();
+        }
+    }
+
     public async Task<User> GetUserPerEmail(string email)
     {
         try

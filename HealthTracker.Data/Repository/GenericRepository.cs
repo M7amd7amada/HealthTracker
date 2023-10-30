@@ -13,15 +13,14 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         this.logger = logger;
     }
 
-    public virtual async Task<bool> Add(T entity)
+    public virtual async Task<bool> AddAsync(T entity)
     {
         ArgumentNullException.ThrowIfNull(entity);
         await dbSet.AddAsync(entity);
-        context.SaveChanges();
         return true;
     }
 
-    public virtual Task<bool> Delete(Guid id, string userId)
+    public virtual Task<bool> DeleteAsync(Guid id, string userId)
     {
         throw new NotImplementedException();
     }
@@ -31,12 +30,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await dbSet.ToListAsync();
     }
 
-    public virtual async Task<T> GetById(Guid id)
+    public virtual async Task<T> GetByIdAsync(Guid id)
     {
-        return await dbSet.FindAsync(id) ?? throw new ArgumentNullException(nameof(id));
+        return await dbSet.FindAsync(id)
+            ?? throw new ArgumentNullException(nameof(id));
     }
 
-    public Task<bool> Update(T entity)
+    public Task<bool> UpdateAsync(T entity)
     {
         throw new NotImplementedException();
     }
