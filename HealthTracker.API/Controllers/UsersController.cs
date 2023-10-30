@@ -19,7 +19,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    [Route("GetUser")]
+    [Route("GetUser", Name = "GetUser")]
     public async Task<IActionResult> GetUser(Guid id)
     {
         var user = await _unitOfWork.Users.GetByIdAsync(id);
@@ -48,10 +48,9 @@ public class UsersController : ControllerBase
             Email = userDto.Email,
         };
 
-
         await _unitOfWork.Users.AddAsync(user);
         await _unitOfWork.CompleteAsync();
 
-        return Ok();
+        return CreatedAtRoute("GetUser", new { id = user.Id }, userDto);
     }
 }
