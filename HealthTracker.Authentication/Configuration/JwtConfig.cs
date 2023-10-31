@@ -1,4 +1,4 @@
-namespace HealthTracker.API.Configuration.Models;
+namespace HealthTracker.Authentication.Configuration;
 
 public class JwtConfig
 {

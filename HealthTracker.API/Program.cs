@@ -1,5 +1,5 @@
 using System.Text;
-using HealthTracker.API.Configuration.Models;
+using HealthTracker.Authentication.Configuration;
 using HealthTracker.Data.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
