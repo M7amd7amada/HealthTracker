@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using HealthTracker.Entities.Dtos.Incoming;
 using HealthTracker.Entities.DbSet;
 using Microsoft.AspNetCore.Mvc;
@@ -6,24 +5,16 @@ using HealthTracker.Data.Configuration;
 
 namespace HealthTracker.API.Controllers.V1;
 
-[ApiController]
-[ApiVersion("1.0")]
-[Route("api/{version:apiVersion}/[controller]")]
-public class UsersController : ControllerBase
+public class UsersController : BaseContrller
 {
-    private readonly IUnitOfWork _unitOfWork;
-
     public UsersController(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork ??
-            throw new ArgumentNullException(nameof(unitOfWork));
-    }
+        : base(unitOfWork) { }
 
     [HttpGet]
     [Route("GetUser", Name = "GetUser")]
     public async Task<IActionResult> GetUser(Guid id)
     {
-        var user = await _unitOfWork.Users.GetByIdAsync(id);
+        var user = await unitOfWork.Users.GetByIdAsync(id);
         return Ok(user);
     }
 
@@ -31,7 +22,7 @@ public class UsersController : ControllerBase
     [Route("GetUsersNumber")]
     public async Task<IActionResult> GetUsersNumber()
     {
-        var users = await _unitOfWork.Users.GetAllAsync();
+        var users = await unitOfWork.Users.GetAllAsync();
         return Ok(users.Count());
     }
 
@@ -39,7 +30,7 @@ public class UsersController : ControllerBase
     [Route("GetUsers")]
     public async Task<IActionResult> GetUsersAsync()
     {
-        var users = await _unitOfWork.Users.GetAllAsync();
+        var users = await unitOfWork.Users.GetAllAsync();
         return Ok(users);
     }
 
@@ -57,8 +48,8 @@ public class UsersController : ControllerBase
             Email = userDto.Email,
         };
 
-        await _unitOfWork.Users.AddAsync(user);
-        await _unitOfWork.CompleteAsync();
+        await unitOfWork.Users.AddAsync(user);
+        await unitOfWork.CompleteAsync();
 
         return CreatedAtRoute("GetUser", new { id = user.Id }, userDto);
     }
