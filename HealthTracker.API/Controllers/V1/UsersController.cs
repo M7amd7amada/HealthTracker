@@ -4,10 +4,11 @@ using HealthTracker.Entities.DbSet;
 using Microsoft.AspNetCore.Mvc;
 using HealthTracker.Data.Configuration;
 
-namespace HealthTracker.API;
+namespace HealthTracker.API.Controllers.V1;
 
 [ApiController]
-[Route("api/[controller]")]
+[ApiVersion("1.0")]
+[Route("api/{version:apiVersion}/[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -24,6 +25,14 @@ public class UsersController : ControllerBase
     {
         var user = await _unitOfWork.Users.GetByIdAsync(id);
         return Ok(user);
+    }
+
+    [HttpGet]
+    [Route("GetUsersNumber")]
+    public async Task<IActionResult> GetUsersNumber()
+    {
+        var users = await _unitOfWork.Users.GetAllAsync();
+        return Ok(users.Count());
     }
 
     [HttpGet]
