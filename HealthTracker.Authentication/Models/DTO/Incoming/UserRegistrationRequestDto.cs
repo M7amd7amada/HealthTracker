@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HealthTracker.Authentication.Models.DTO.Incoming;
 
-public class UserRegistrationRequest
+public class UserRegistrationRequestDto
 {
     [Required]
     public string FirstName { get; set; } = String.Empty;

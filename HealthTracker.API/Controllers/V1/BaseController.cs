@@ -1,4 +1,3 @@
-using HealthTracker.Data.Configuration;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthTracker.API.Controllers.V1;

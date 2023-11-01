@@ -1,7 +1,6 @@
 using HealthTracker.Entities.Dtos.Incoming;
 using HealthTracker.Entities.DbSet;
 using Microsoft.AspNetCore.Mvc;
-using HealthTracker.Data.Configuration;
 
 namespace HealthTracker.API.Controllers.V1;
 
